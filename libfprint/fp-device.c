@@ -53,6 +53,7 @@ enum {
   PROP_FPI_USB_DEVICE,
   PROP_FPI_UDEV_DATA_SPIDEV,
   PROP_FPI_UDEV_DATA_HIDRAW,
+  PROP_FPI_UDEV_DATA_CHARDEV,
   PROP_FPI_DRIVER_DATA,
   N_PROPS
 };
@@ -234,6 +235,7 @@ fp_device_finalize (GObject *object)
   g_clear_pointer (&priv->virtual_env, g_free);
   g_clear_pointer (&priv->udev_data.spidev_path, g_free);
   g_clear_pointer (&priv->udev_data.hidraw_path, g_free);
+  g_clear_pointer (&priv->udev_data.chardev_path, g_free);
 
   G_OBJECT_CLASS (fp_device_parent_class)->finalize (object);
 }
@@ -304,6 +306,13 @@ fp_device_get_property (GObject    *object,
         g_value_set_string (value, NULL);
       break;
 
+    case PROP_FPI_UDEV_DATA_CHARDEV:
+      if (cls->type == FP_DEVICE_TYPE_UDEV)
+        g_value_set_string (value, g_strdup (priv->udev_data.chardev_path));
+      else
+        g_value_set_string (value, NULL);
+      break;
+
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
     }
@@ -346,6 +355,13 @@ fp_device_set_property (GObject      *object,
     case PROP_FPI_UDEV_DATA_HIDRAW:
       if (cls->type == FP_DEVICE_TYPE_UDEV)
         priv->udev_data.hidraw_path = g_value_dup_string (value);
+      else
+        g_assert (g_value_get_string (value) == NULL);
+      break;
+
+    case PROP_FPI_UDEV_DATA_CHARDEV:
+      if (cls->type == FP_DEVICE_TYPE_UDEV)
+        priv->udev_data.chardev_path = g_value_dup_string (value);
       else
         g_assert (g_value_get_string (value) == NULL);
       break;
@@ -575,6 +591,20 @@ fp_device_class_init (FpDeviceClass *klass)
     g_param_spec_string ("fpi-udev-data-hidraw",
                          "Udev data: hidraw path",
                          "Private: The path to /dev/hidrawN",
+                         NULL,
+                         G_PARAM_STATIC_STRINGS | G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY);
+
+  /**
+   * FpDevice::fpi-udev-data-chardev: (skip)
+   *
+   * This property is only for internal purposes.
+   *
+   * Stability: private
+   */
+  properties[PROP_FPI_UDEV_DATA_CHARDEV] =
+    g_param_spec_string ("fpi-udev-data-chardev",
+                         "Udev data: chardev path",
+                         "Private: The path to /dev/<chardev>",
                          NULL,
                          G_PARAM_STATIC_STRINGS | G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY);
 

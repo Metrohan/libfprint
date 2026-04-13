@@ -141,6 +141,27 @@ driver_sources = {
         [ 'drivers/goodixmoc/goodix.c', 'drivers/goodixmoc/goodix_proto.c' ],
     'fpcmoc' :
         [ 'drivers/fpcmoc/fpc.c' ],
+
+    'gxfp' :
+        [
+            'drivers/gxfp.c',
+            'drivers/gxfpmoc/src/io/dev.c',
+            'drivers/gxfpmoc/src/algo/common.c',
+            'drivers/gxfpmoc/src/algo/image/decoder.c',
+            'drivers/gxfpmoc/src/algo/image/fpn.c',
+            'drivers/gxfpmoc/src/algo/image/plain.c',
+            'drivers/gxfpmoc/src/proto/goodix_proto.c',
+            'drivers/gxfpmoc/src/flow/device_recovery.c',
+            'drivers/gxfpmoc/src/flow/fdt.c',
+            'drivers/gxfpmoc/src/flow/session.c',
+            'drivers/gxfpmoc/src/cmd/device_recovery_cmd.c',
+            'drivers/gxfpmoc/src/cmd/fdt_cmd.c',
+            'drivers/gxfpmoc/src/cmd/goodix_xfer.c',
+            'drivers/gxfpmoc/src/cmd/mcu_state_cmd.c',
+            'drivers/gxfpmoc/src/cmd/tls_cmd.c',
+            'drivers/gxfpmoc/src/tls/tls_service.c',
+            'drivers/gxfpmoc/src/tls/tls_engine_mbedtls.c',
+        ],
 }
 
 helper_sources = {
@@ -223,6 +244,17 @@ deps = [
     gusb_dep,
     mathlib_dep,
 ] + optional_deps
+
+if 'gxfp' in drivers
+    mbedtls_dep = dependency('mbedtls')
+    mbedcrypto_dep = dependency('mbedcrypto')
+    mbedx509_dep = dependency('mbedx509')
+    deps += [ mbedtls_dep, mbedcrypto_dep, mbedx509_dep ]
+    drivers_cflags += [ '-DGXFP_WITH_MBEDTLS' ]
+    deps += declare_dependency(include_directories: [
+        include_directories('drivers/gxfpmoc/include'),
+    ])
+endif
 
 subdir('sigfm')
 
