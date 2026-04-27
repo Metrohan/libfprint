@@ -160,6 +160,7 @@ driver_sources = {
             'drivers/gxfpmoc/src/cmd/goodix_xfer.c',
             'drivers/gxfpmoc/src/cmd/mcu_state_cmd.c',
             'drivers/gxfpmoc/src/cmd/sensor_cfg_cmd.c',
+            'drivers/gxfpmoc/src/cmd/register_cmd.c',
             'drivers/gxfpmoc/src/cmd/tls_cmd.c',
             'drivers/gxfpmoc/src/tls/tls_service.c',
             'drivers/gxfpmoc/src/tls/tls_engine_mbedtls.c',
