@@ -13,7 +13,7 @@
 #include "gxfp/flow/session.h"
 
 #define DEFAULT_ENROLL_SAMPLES 16
-#define GXFP_DEFAULT_PSK_PATH  "/var/lib/fprint/Sensor/gxfp/psk_raw32.bin"
+#define GXFP_DEFAULT_PSK_PATH  "/var/lib/fprintd/gxfp/psk_raw32.bin"
 
 struct _FpiDeviceGxfp {
   FpImageDevice parent;
