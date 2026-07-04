@@ -16,8 +16,7 @@
         }));
   in {
     overlays.default = final: _prev: {
-      libfprint = final.callPackage ./nix/libfprint.nix {};
-      fprintd = final.callPackage ./nix/fprintd.nix {};
+      gxfp-tools = final.callPackage ./nix/gxfp-tools.nix {};
     };
 
     packages = forEachSystem (pkgs: rec {
@@ -25,6 +24,7 @@
       fprintd-gxfp = pkgs.callPackage ./nix/fprintd.nix {
         inherit libfprint-gxfp;
       };
+      gxfp-tools = pkgs.callPackage ./nix/gxfp-tools.nix {};
       default = fprintd-gxfp;
     });
 
