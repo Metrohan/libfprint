@@ -1,4 +1,6 @@
-
+> **Fork Notice**
+>
+> This repository is a fork of [Void755/libfprint](https://github.com/Void755/libfprint) (itself based on the upstream FPrint project). This fork carries real local changes — Goodix GXFP5130 (`gxfp`) driver support, PAM/PSK path updates, and Nix packaging — made in support of [gxfp5130-linux](https://github.com/Metrohan/gxfp5130-linux). See [FORK_NOTES.md](FORK_NOTES.md) for details. Original authorship and licensing (LGPL-2.1) belong to the upstream project.
 
 <div align="center">
 
